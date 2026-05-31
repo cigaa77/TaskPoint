@@ -13,7 +13,17 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        navigationItem.title = "Select Location"
+        let doneNavigationButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: #selector(doneNavigationClicked))
+        navigationItem.rightBarButtonItem = doneNavigationButton
     }
+    
+    @objc func doneNavigationClicked() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
     
 
     /*

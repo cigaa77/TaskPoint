@@ -13,6 +13,15 @@ class AddTaskViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        navigationItem.title = "Add Task"
+        
+        let addButton = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveClicked))
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc func saveClicked() {
+        navigationController?.popViewController(animated: true)
     }
     
 

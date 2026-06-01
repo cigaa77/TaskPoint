@@ -38,6 +38,7 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
     */
     
     var taskListArray = [MockTaskList]()
+    var idArrayList = [UUID]()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -116,10 +117,56 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    func tableView(_ tableView: UITableView,commit editingStyle: UITableViewCell.EditingStyle,forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(
+                entityName: "TaskEntity"
+            )
+
+            let uuidString = idArrayList[indexPath.row].uuidString
+
+            fetchRequest.predicate = NSPredicate(format: "taskUUID == %@",uuidString)
+            fetchRequest.returnsObjectsAsFaults = false
+
+            do {
+                let results = try context.fetch(fetchRequest)
+                if results.count > 0 {
+                    for result in results as! [NSManagedObject] {
+                        if let id = result.value(forKey: "taskUUID") as? UUID {
+                            if id == idArrayList[indexPath.row] {
+                                context.delete(result)
+                                taskListArray.remove(at: indexPath.row)
+                                idArrayList.remove(at: indexPath.row)
+                                tableView.reloadData()
+
+                                do {
+                                    try context.save()
+                                } catch {
+                                    print("Delete Save Error")
+                                }
+                                break
+                            }
+                        }
+                    }
+                } else {
+                    print("result.count <= 0")
+                }
+            } catch {
+                print("Delete Fetch Error")
+            }
+
+        }
+    }
+
     func getFromCoreData() {
         
         taskListArray.removeAll()
-        
+        idArrayList.removeAll()
+
         let AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = AppDelegate.persistentContainer.viewContext
         
@@ -141,9 +188,12 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
                 let priority = result.value(forKey: "taskPriority") as! String
                 let notes = result.value(forKey: "taskNotes") as! String
                 
+                let uuid = result.value(forKey: "taskUUID") as! UUID
+                
                 let task = MockTaskList(iconName: iconName, title: title, description: description, date: date, time: time, location: location, priority: priority, notes: notes, isCompleted: isCompleted)
                 
                 taskListArray.append(task)
+                idArrayList.append(uuid)
             }
             
             tableView.reloadData()

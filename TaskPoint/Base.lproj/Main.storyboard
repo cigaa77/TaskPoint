@@ -229,6 +229,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="b0U-Yn-l17"/>
+                    <connections>
+                        <outlet property="descriptionTextView" destination="d7U-Qm-lAe" id="eQt-DW-vnx"/>
+                        <outlet property="dueDatePicker" destination="HBa-Eq-EkX" id="h0d-vc-2kW"/>
+                        <outlet property="dueTimePicker" destination="15G-lJ-IfJ" id="ZB0-5V-Z6O"/>
+                        <outlet property="notesTextField" destination="0mh-QN-yPt" id="Kdb-XU-EcD"/>
+                        <outlet property="priorityPicker" destination="Q0X-IW-5pk" id="l6b-st-Iee"/>
+                        <outlet property="titleTextField" destination="7SZ-cd-gs1" id="dqZ-bT-P7n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzW-WK-d9N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -6,15 +6,15 @@
 //
 
 class MockTaskList {
-    let iconName: String
-    let title: String
-    let description: String
-    let date: String
-    let time: String
-    let location: String
-    let priority: String
-    let notes: String
-    let isCompleted: Bool
+    var iconName: String
+    var title: String
+    var description: String
+    var date: String
+    var time: String
+    var location: String
+    var priority: String
+    var notes: String
+    var isCompleted: Bool
     
     init(iconName: String, title: String, description: String, date: String, time: String, location: String, priority: String, notes: String, isCompleted: Bool) {
         self.iconName = iconName

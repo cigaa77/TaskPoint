@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import CoreData
 
 class TaskListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    /*
     var mockTaskArray = [
         MockTaskList(
             iconName: "book.fill",
@@ -33,6 +35,9 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
             isCompleted: true
         )
     ]
+    */
+    
+    var taskListArray = [MockTaskList]()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -77,7 +82,13 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        getFromCoreData()
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getFromCoreData()
     }
 
     @objc func addNavigationButton() {
@@ -89,12 +100,12 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mockTaskArray.count
+        return taskListArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath)  as! CustomTaskTableViewCell
-        let task = mockTaskArray[indexPath.row]
+        let task = taskListArray[indexPath.row]
         cell.iconImageView.image = UIImage(systemName: task.iconName)
         cell.titleLabel.text = task.title
         cell.descriptionLabel.text = task.description
@@ -103,6 +114,43 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
         cell.isCompletedLabel.text = task.priority
         
         return cell
+    }
+    
+    func getFromCoreData() {
+        
+        taskListArray.removeAll()
+        
+        let AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = AppDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TaskEntity")
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            
+            for result in results as! [NSManagedObject] {
+                
+                let iconName = result.value(forKey: "taskIconName") as! String
+                let title = result.value(forKey: "taskTitle") as! String
+                let description = result.value(forKey: "taskDescription") as! String
+                let date = result.value(forKey: "taskDate") as! String
+                let time = result.value(forKey: "taskTime") as! String
+                let isCompleted = result.value(forKey: "taskIsCompleted") as! Bool
+                let location = result.value(forKey: "taskLocation") as! String
+                let priority = result.value(forKey: "taskPriority") as! String
+                let notes = result.value(forKey: "taskNotes") as! String
+                
+                let task = MockTaskList(iconName: iconName, title: title, description: description, date: date, time: time, location: location, priority: priority, notes: notes, isCompleted: isCompleted)
+                
+                taskListArray.append(task)
+            }
+            
+            tableView.reloadData()
+        } catch {
+            print("Fetch Error")
+        }
+        
     }
 
     /*

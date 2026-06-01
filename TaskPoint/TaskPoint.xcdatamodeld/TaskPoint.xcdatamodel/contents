@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24512" systemVersion="25B78" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="taskDate" optional="YES" attributeType="String"/>
+        <attribute name="taskDescription" optional="YES" attributeType="String"/>
+        <attribute name="taskIconName" optional="YES" attributeType="String"/>
+        <attribute name="taskIsCompleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="taskLocation" optional="YES" attributeType="String"/>
+        <attribute name="taskNotes" optional="YES" attributeType="String"/>
+        <attribute name="taskPriority" optional="YES" attributeType="String"/>
+        <attribute name="taskTime" optional="YES" attributeType="String"/>
+        <attribute name="taskTitle" optional="YES" attributeType="String"/>
+        <attribute name="taskUUID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
 </model>

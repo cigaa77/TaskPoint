@@ -17,6 +17,30 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+      /*
+        if Auth.auth().currentUser != nil {
+            self.performSegue(
+                withIdentifier: "toTaskListViewController",
+                sender: nil
+            )
+            print("Auth !=nil")
+        } else {
+            print("Auth == nil")
+        }
+       */
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        /*
+        if Auth.auth().currentUser != nil {
+            self.performSegue(
+                withIdentifier: "toTaskListViewController",
+                sender: nil
+            )
+            print("Auth !=nil")
+        } else {
+            print("Auth == nil")
+        }
+        */
     }
 
     @IBAction func signInButtonClicked(_ sender: Any) {

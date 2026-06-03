@@ -12,6 +12,7 @@ import CoreLocation
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var selectedMapLocationLabel: UILabel!
     
     let locationManager = CLLocationManager()
 
@@ -55,7 +56,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 {
                     //  print("Adress :\(subThroughFare) - City  \(thoroughFare), Loca \(locality), count \(country)")
                     //print("\(countryName), \(cityName), \(addressName)")
-                    NotificationCenter.default.post(name: NSNotification.Name("selectedAdress"), object: nil, userInfo: ["selectedAdress": "\(countryName), \(cityName), \(addressName)"])
+                    let adress = "\(countryName), \(cityName), \(addressName)"
+                    NotificationCenter.default.post(name: NSNotification.Name("selectedAdress"), object: nil, userInfo: ["selectedAdress": adress])
+                    self.selectedMapLocationLabel.text = adress
                 }
             }
             

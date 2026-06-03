@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import FirebaseAuth
 
 class TaskListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -99,7 +100,12 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @objc func exitNavigationButton() {
-        performSegue(withIdentifier: "toViewController", sender: nil)
+        do{
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "toViewController", sender: nil)
+        }catch {
+            print("LogOut Error")
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

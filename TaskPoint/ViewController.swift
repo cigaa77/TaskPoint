@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ViewController: UIViewController {
     
@@ -23,7 +24,17 @@ class ViewController: UIViewController {
         count -= 1
         if count == 0 {
             timer.invalidate()
-            performSegue(withIdentifier: "toLoginViewController", sender: nil)
+            if Auth.auth().currentUser != nil {
+                self.performSegue(
+                    withIdentifier: "toNavigationController",
+                    sender: nil
+                )
+                print("Auth !=nil")
+            } else {
+                print("Auth == nil")
+                performSegue(withIdentifier: "toLoginViewController", sender: nil)
+            }
+            
             
         }
     }

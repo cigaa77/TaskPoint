@@ -19,6 +19,10 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var notesTextField: UITextView!
     // @IBOutlet weak var isCompletedSwitch:
     // @IBOutlet weak var iconName:
+    @IBOutlet weak var addressTextLabel: UILabel!
+    @IBOutlet weak var locationButton: UIButton!
+    
+    var adressName = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +33,18 @@ class AddTaskViewController: UIViewController {
         
         let addButton = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveClicked))
         navigationItem.rightBarButtonItem = addButton
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(getSelectedAdress), name: NSNotification.Name("selectedAdress"), object: nil)
+    }
+    
+    @objc func getSelectedAdress(notification: Notification) {
+        if let adress = notification.userInfo?["selectedAdress"] as? String {
+            //print("Adress - > \(adress)")
+            adressName = adress
+            addressTextLabel.text = adress
+            locationButton.setTitle("Change Location", for: UIControl.State.normal)
+        }
     }
     
     @objc func saveClicked() {
@@ -62,7 +78,8 @@ class AddTaskViewController: UIViewController {
         newTask.setValue(notesTextField.text, forKey: "taskNotes")
         newTask.setValue(false, forKey: "taskIsCompleted")
         newTask.setValue("cart.fill", forKey: "taskIconName")
-        newTask.setValue("Rheinau, Germany", forKey: "taskLocation")
+        newTask.setValue(adressName, forKey: "taskLocation")
+        //print("Adress Nabe -. \(adressName)")
         newTask.setValue(UUID(), forKey: "taskUUID")
         
         do {

@@ -40,6 +40,8 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
     var taskListArray = [MockTaskList]()
     var idArrayList = [UUID]()
     
+    var sendedId = ""
+    
     @IBOutlet weak var tableView: UITableView!
     
 
@@ -159,6 +161,19 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
                 print("Delete Fetch Error")
             }
 
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        sendedId = idArrayList[indexPath.row].uuidString
+        performSegue(withIdentifier: "toDetailsViewController", sender: nil)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetailsViewController" {
+            let destinationVc = segue.destination as! TaskDetailViewController
+            destinationVc.selectedId = sendedId
         }
     }
 
